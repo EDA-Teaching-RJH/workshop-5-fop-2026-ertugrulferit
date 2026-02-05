@@ -5,6 +5,7 @@
 # The program should continue to prompt the user to insert coins until the total amount inserted is equal to or greater than the price of the coffee. 
 # Once the required amount is reached, the program should calculate and display any change that needs to be returned to the user.
 # If a non integer coin is inserted, the program should display an error message and prompt the user to insert a valid coin.
+# The program must not crash if the user enters non-integer data. It should catch the error (using `try/except`), inform the user "Invalid Input," and ask for the coin again.
 price = 75
 def main():
     total_coins = 0
@@ -19,7 +20,14 @@ def main():
         elif coin_input == "5":
             total_coins += 5
         else:
-            print("Invalid coin. Please insert a valid coin.")
+            try:
+                coin_value = int(coin_input)
+                if coin_value in [50, 20, 10, 5]:
+                    total_coins += coin_value
+                else:
+                    print("Invalid coin. Please insert a valid coin.")
+            except ValueError:
+                print("Invalid Input. Please insert a valid coin.")
     if total_coins >= price:
         change = total_coins - price
         print(f"Total inserted: {total_coins}p. change: {change}p.")
