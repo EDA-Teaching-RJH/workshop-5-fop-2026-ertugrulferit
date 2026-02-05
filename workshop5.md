@@ -95,8 +95,6 @@ Now that you have a modular system (from Part Four), we are entering "Cycle 2" o
 3.  **Expansion (Optional):** Once you have a working smart machine, add more drinks to the system (Hot Chocolate, Tea) with different prices.
     
 
-----------
-
 ## Part Six – Safety Critical Review
 
 We looked at the **Ariane 5** and **Mars Lander** disasters caused by software errors.
