@@ -1,19 +1,13 @@
-#Statement of Requirements
-
-#Functional Requirements:
-# Accept integer coin inputs in pence: 50, 20, 10, 5.
-# When total inserted >= 75p, complete the purchase and return change (total - 75p).
-#Non-Functional Requirements:
-# If the user enters non-integer data, do not crash. Print "Invalid Input" and prompt again.
-# Ignore unknown integer denominations (print "Unknown coin" and prompt again).
-
 VALID_COINS = {50, 20, 10, 5}
-PRICE = 75
+DENOMINATIONS = [50, 20, 10, 5]
+DRINKS = {"1": ("Coffee", 75), "2": ("Hot Chocolate", 95),"3": ("Tea", 65), "4": ("Cappuccino", 100)}
+
+
 def get_coin():
     while True:
-        entercoin = input("Insert coin (50, 20, 10, 5) in pence: ")
+        s = input("Insert coin (50, 20, 10, 5) in pence: ")
         try:
-            coin = int(entercoin)
+            coin = int(s)
         except ValueError:
             print("Invalid Input")
             continue
@@ -22,31 +16,58 @@ def get_coin():
         else:
             print("Unknown coin")
 
+
 def update_total(current, coin):
     return current + coin
 
-def dispense_product(total_inserted):
-    change = total_inserted - PRICE
+
+def calculate_change(amount):
+    result = []
+    remaining = amount
+    for coin in DENOMINATIONS:
+        while remaining >= coin:
+            remaining -= coin
+            result.append(coin)
+    return result
+
+
+def choose_drink():
+    print("Select a drink:")
+    for key, (name, price) in DRINKS.items():
+        print(f"{key}) {name} - {price}p")
+    while True:
+        choice = input("Choice: ")
+        if choice in DRINKS:
+            return DRINKS[choice]
+        print("Invalid choice")
+
+
+def dispense_product_for_price(total_inserted, price):
     print("Purchase complete.")
-    if change > 0:
-        print(f"Change: {change}p")
+    change = total_inserted - price
+    if change <= 0:
+        print("No change owed. Thank you.")
+        return
+    coins = calculate_change(change)
+    if coins:
+        coin_list = ', '.join(f"{c}p" for c in coins)
+        print(f"Returning: {coin_list}")
     else:
-        print("No change:(")
+        print(f"Change owed: {change}p")
+
 
 def main():
+    drink_name, price = choose_drink()
     total = 0
-    print(f"Price: {PRICE}p")
-    while total < PRICE:
+    print(f"Selected: {drink_name} — Price: {price}p")
+    while total < price:
         coin = get_coin()
         total = update_total(total, coin)
-        due = max(0, PRICE - total)
+        due = max(0, price - total)
         if due > 0:
             print(f"Amount due: {due}p")
-    dispense_product(total)
+    dispense_product_for_price(total, price)
+
 
 if __name__ == "__main__":
     main()
-
-      
-
-
