@@ -4,7 +4,7 @@
 # The price of a cup of coffee is 75p. 
 # The program should continue to prompt the user to insert coins until the total amount inserted is equal to or greater than the price of the coffee. 
 # Once the required amount is reached, the program should calculate and display any change that needs to be returned to the user.
-
+# If a non integer coin is inserted, the program should display an error message and prompt the user to insert a valid coin.
 price = 75
 def main():
     total_coins = 0
